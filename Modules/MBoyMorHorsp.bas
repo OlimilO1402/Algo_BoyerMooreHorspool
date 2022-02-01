@@ -1,4 +1,4 @@
-Attribute VB_Name = "Module1"
+Attribute VB_Name = "MBoyMorHorsp"
 Option Explicit
 
 Sub Debug_Print(ByVal s As String)

@@ -18,7 +18,7 @@ Begin VB.Form Form1
       Width           =   855
    End
    Begin VB.CommandButton Command1 
-      Caption         =   "Test of searching for the needle in the haystack with an algorithm by Boyer, Moore and Horspool"
+      Caption         =   "Test of searching for the needle in the haystack with an algorithm due to Boyer, Moore and Horspool"
       Height          =   375
       Left            =   120
       TabIndex        =   1
@@ -36,7 +36,7 @@ Begin VB.Form Form1
          Strikethrough   =   0   'False
       EndProperty
       Height          =   5655
-      Left            =   120
+      Left            =   0
       MultiLine       =   -1  'True
       ScrollBars      =   3  'Beides
       TabIndex        =   0
