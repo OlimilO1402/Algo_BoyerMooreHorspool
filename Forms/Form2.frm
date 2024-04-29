@@ -1,38 +1,14 @@
 VERSION 5.00
-Begin VB.Form Form1 
-   Caption         =   "Form1"
+Begin VB.Form Form2 
+   Caption         =   "Form2"
    ClientHeight    =   6375
    ClientLeft      =   120
-   ClientTop       =   420
+   ClientTop       =   465
    ClientWidth     =   10095
-   LinkTopic       =   "Form1"
+   LinkTopic       =   "Form2"
    ScaleHeight     =   6375
    ScaleWidth      =   10095
    StartUpPosition =   3  'Windows-Standard
-   Begin VB.CommandButton Command2 
-      Caption         =   "(W)>>"
-      Height          =   375
-      Left            =   8880
-      TabIndex        =   3
-      Top             =   120
-      Width           =   735
-   End
-   Begin VB.CommandButton BtnInfo 
-      Caption         =   "Info"
-      Height          =   375
-      Left            =   7920
-      TabIndex        =   2
-      Top             =   120
-      Width           =   855
-   End
-   Begin VB.CommandButton Command1 
-      Caption         =   "Test of searching for the needle in the haystack with an algorithm due to Boyer, Moore and Horspool"
-      Height          =   375
-      Left            =   120
-      TabIndex        =   1
-      Top             =   120
-      Width           =   7695
-   End
    Begin VB.TextBox Text1 
       BeginProperty Font 
          Name            =   "Consolas"
@@ -47,12 +23,28 @@ Begin VB.Form Form1
       Left            =   0
       MultiLine       =   -1  'True
       ScrollBars      =   3  'Beides
-      TabIndex        =   0
+      TabIndex        =   2
       Top             =   600
       Width           =   9975
    End
+   Begin VB.CommandButton Command1 
+      Caption         =   "Test of searching for the needle in the haystack with an algorithm due to Boyer, Moore and Horspool (W)"
+      Height          =   375
+      Left            =   120
+      TabIndex        =   1
+      Top             =   120
+      Width           =   7695
+   End
+   Begin VB.CommandButton BtnInfo 
+      Caption         =   "Info"
+      Height          =   375
+      Left            =   7920
+      TabIndex        =   0
+      Top             =   120
+      Width           =   855
+   End
 End
-Attribute VB_Name = "Form1"
+Attribute VB_Name = "Form2"
 Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
@@ -73,18 +65,14 @@ Private Sub BtnInfo_Click()
 End Sub
 
 Private Sub Command1_Click()
-    Dim haystack() As Byte: haystack = StrConv(m_Haystack, vbFromUnicode)
-    Dim needle()   As Byte: needle = StrConv(m_Needle, vbFromUnicode)
-    
-    MBoyMorHorsp.Debug_Print m_Haystack
-    MBoyMorHorsp.Debug_Print m_Needle
+    MBoyMorHorspW.Debug_Print m_Haystack
+    MBoyMorHorspW.Debug_Print m_Needle
     If m_Start = 0 Then
-        m_Start = MBoyMorHorsp.Find(haystack, needle)
+        m_Start = MBoyMorHorspW.FindStr(m_Haystack, m_Needle)
     Else
-        m_Start = MBoyMorHorsp.Find(haystack, needle, m_Start)
+        m_Start = MBoyMorHorspW.FindNext
     End If
-    MBoyMorHorsp.Debug_Print "pos: " & m_Start
-    m_Start = m_Start + Len(m_Needle)
+    MBoyMorHorspW.Debug_Print "pos: " & m_Start
 End Sub
 
 Private Sub Command2_Click()
@@ -97,4 +85,8 @@ Private Sub Form_Resize()
     Dim W As Single: W = Me.ScaleWidth
     Dim H As Single: H = Me.ScaleHeight - t
     If W > 0 And H > 0 Then Text1.Move L, t, W, H
+End Sub
+
+Private Sub Form_Unload(Cancel As Integer)
+    MBoyMorHorspW.Clear
 End Sub

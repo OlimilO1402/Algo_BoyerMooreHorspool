@@ -1,16 +1,35 @@
-Attribute VB_Name = "MBoyMorHorsp"
+Attribute VB_Name = "MBoyMorHorspW"
 Option Explicit
+Private m_Text  As MPtr.TCharPointer
+Private m_Find  As MPtr.TCharPointer
+Private m_Start As Long
 
-Sub Debug_Print(ByVal s As String)
-    Form1.Text1 = Form1.Text1 & s & vbCrLf
+Public Function FindStr(Text As String, FindWhat As String, Optional start As Long = 0) As Long
+    MPtr.New_CharPointer m_Text, Text
+    MPtr.New_CharPointer m_Find, FindWhat
+    FindStr = BMH_Find(m_Text.Chars, m_Find.Chars)
+    m_Start = FindStr + m_Find.pudt.cElements
+End Function
+
+Public Function FindNext() As Long
+    FindNext = BMH_Find(m_Text.Chars, m_Find.Chars, m_Start)
+End Function
+
+Public Sub Clear()
+    MPtr.DeleteCharPointer m_Text
+    MPtr.DeleteCharPointer m_Find
 End Sub
 
-Function Find(haystack() As Byte, needle() As Byte, Optional start As Long = 0) As Long
+Public Sub Debug_Print(ByVal s As String)
+    Form2.Text1 = Form2.Text1 & s & vbCrLf
+End Sub
+
+Private Function BMH_Find(haystack() As Integer, needle() As Integer, Optional start As Long = 0) As Long
     'Boyer-Moore-Horspool-Algo
-    Find = -1
+    BMH_Find = -1
     Dim i_n As Long
     Dim i_h As Long:    i_h = start
-    Const UCHAR_MAX As Long = 255
+    Const UCHAR_MAX As Long = 65535 '255
     Dim bad_char_skip(0 To UCHAR_MAX + 2) As Long
     On Error GoTo 0
     Dim ds As String
@@ -25,7 +44,9 @@ Function Find(haystack() As Byte, needle() As Byte, Optional start As Long = 0) 
     For i_n = 0 To last - 1
         bad_char_skip(needle(i_n)) = last - i_n
     Next
-    Dim bcs As Byte, bhs As Byte
+    'Dim bcs As Byte, bhs As Byte
+    Dim bcs As Integer, bhs As Integer
+    'Dim bcs As Long, bhs As Long
     'Dim ds As String 'debugstring
     Debug_Print "We search the haystack from the left, but "
     Debug_Print "we compare with each character of the needle from the right"
@@ -34,7 +55,7 @@ Function Find(haystack() As Byte, needle() As Byte, Optional start As Long = 0) 
         While haystack(i_h + i_n) = needle(i_n)
             i_n = i_n - 1
             If i_n = 0 Then
-                Find = i_h
+                BMH_Find = i_h
                 Exit Function
             End If
         Wend
@@ -142,4 +163,5 @@ End Function
 '}
 '
 '
+
 
