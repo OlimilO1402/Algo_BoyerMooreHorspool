@@ -4,8 +4,8 @@ Private m_Text  As MPtr.TCharPointer
 Private m_Find  As MPtr.TCharPointer
 Private m_Start As Long
 
-Public Function FindStr(Text As String, FindWhat As String, Optional start As Long = 0) As Long
-    MPtr.New_CharPointer m_Text, Text
+Public Function FindStr(text As String, FindWhat As String, Optional Start As Long = 0) As Long
+    MPtr.New_CharPointer m_Text, text
     MPtr.New_CharPointer m_Find, FindWhat
     FindStr = BMH_Find(m_Text.Chars, m_Find.Chars)
     m_Start = FindStr + m_Find.pudt.cElements
@@ -24,11 +24,11 @@ Public Sub Debug_Print(ByVal s As String)
     Form2.Text1 = Form2.Text1 & s & vbCrLf
 End Sub
 
-Private Function BMH_Find(haystack() As Integer, needle() As Integer, Optional start As Long = 0) As Long
+Private Function BMH_Find(haystack() As Integer, needle() As Integer, Optional Start As Long = 0) As Long
     'Boyer-Moore-Horspool-Algo
     BMH_Find = -1
     Dim i_n As Long
-    Dim i_h As Long:    i_h = start
+    Dim i_h As Long:    i_h = Start
     Const UCHAR_MAX As Long = 65535 '255
     Dim bad_char_skip(0 To UCHAR_MAX + 2) As Long
     On Error GoTo 0
@@ -36,7 +36,7 @@ Private Function BMH_Find(haystack() As Integer, needle() As Integer, Optional s
     Dim n_h As Long: n_h = UBound(haystack) + 1
     Dim n_n As Long: n_n = UBound(needle) + 1
     If n_n > n_h Then Exit Function
-    
+
     For i_n = 0 To UCHAR_MAX + 2
         bad_char_skip(i_n) = n_n
     Next
@@ -50,7 +50,7 @@ Private Function BMH_Find(haystack() As Integer, needle() As Integer, Optional s
     'Dim ds As String 'debugstring
     Debug_Print "We search the haystack from the left, but "
     Debug_Print "we compare with each character of the needle from the right"
-    While (n_h - start) >= n_n
+    While (n_h - Start) >= n_n
         i_n = last
         While haystack(i_h + i_n) = needle(i_n)
             i_n = i_n - 1

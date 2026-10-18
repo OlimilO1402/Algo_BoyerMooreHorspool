@@ -5,11 +5,11 @@ Sub Debug_Print(ByVal s As String)
     Form1.Text1 = Form1.Text1 & s & vbCrLf
 End Sub
 
-Function Find(haystack() As Byte, needle() As Byte, Optional start As Long = 0) As Long
+Function Find(haystack() As Byte, needle() As Byte, Optional Start As Long = 0) As Long
     'Boyer-Moore-Horspool-Algo
     Find = -1
     Dim i_n As Long
-    Dim i_h As Long:    i_h = start
+    Dim i_h As Long:    i_h = Start
     Const UCHAR_MAX As Long = 255
     Dim bad_char_skip(0 To UCHAR_MAX + 2) As Long
     On Error GoTo 0
@@ -17,7 +17,7 @@ Function Find(haystack() As Byte, needle() As Byte, Optional start As Long = 0) 
     Dim n_h As Long: n_h = UBound(haystack) + 1
     Dim n_n As Long: n_n = UBound(needle) + 1
     If n_n > n_h Then Exit Function
-    
+
     For i_n = 0 To UCHAR_MAX + 2
         bad_char_skip(i_n) = n_n
     Next
@@ -29,7 +29,7 @@ Function Find(haystack() As Byte, needle() As Byte, Optional start As Long = 0) 
     'Dim ds As String 'debugstring
     Debug_Print "We search the haystack from the left, but "
     Debug_Print "we compare with each character of the needle from the right"
-    While (n_h - start) >= n_n
+    While (n_h - Start) >= n_n
         i_n = last
         While haystack(i_h + i_n) = needle(i_n)
             i_n = i_n - 1
